@@ -21,8 +21,18 @@
         }
       };
     </script>
+    <style>
+      .navbar1{
+        background: rgb(16, 16, 71)!important;
+      }
+    </style>
   </head>
   <body>
+    <nav class="navbar bg-body-tertiary navbar1">
+      <div class="container-fluid" >
+        <span class="navbar-brand mb-0 h1" style="color: white;padding: 0.8rem!important;font-size:30px;">iNote</span>
+      </div>
+    </nav>
     <div class="container mt-5">
       <div class="jumbotron">
         <h1 class="display-4">Welcome, <%= userData.name %>!</h1>
@@ -38,7 +48,7 @@
       </div>
       <hr>
       <div class="cotainer-sm text-end">
-        <button class="btn btn-primary">+ Add New Note</button>
+        <button class="btn btn-primary" onclick="">+ Add New Note</button>
       </div>
       <div class="container-sm">
         <div class="row row-cols-3">
