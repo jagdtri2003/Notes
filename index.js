@@ -40,9 +40,9 @@ app.post("/addnote", async (req, res) => {
     const email = userData.email;
     const newNote = Note({ title, content, email });
     await newNote.save();
-    res.json({ msg: "Success" });
+    res.json({ code: "Success" });
   } else {
-    res.json({ msg: "Fail" });
+    res.json({ code: "Fail" });
   }
 });
 
@@ -79,12 +79,12 @@ app.get("/signout", (req, res) => {
   }
 });
 
-app.get("/homepage", (req, res) => {
+app.get("/homepage", async (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
-    // const userNotes = Note.find({});
-    userNotes=[{title:"Hey",content:"Hello Guys!!"}]
+    const userNotes = await Note.find({email:userData.email});
     res.render('homepage',{userData,userNotes});
+    // userNotes=[{title:"Hey",content:"Hello Guys!!"}]
     // res.send(`Welcome, ${userData.name}!`);
   } else {
     res.redirect("/");
