@@ -16,9 +16,10 @@ const onAdd = async () =>{
     if(msg.code==='Success'){
         //Remove the model and show added toast !!
         closeButton.click();
+        // alert("Note added successfully !");
+        location.reload();
     }
     else{
         alert("Error in adding note");
     }
-
 }
