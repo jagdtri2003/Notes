@@ -32,6 +32,16 @@
           0 0 10px rgba(232, 232, 43, 0.963), 0 0 15px rgba(143, 155, 6, 0.489),
           0 2px 0 black;
       }
+      .edit-delete-icons {
+        display: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      .card:hover .edit-delete-icons {
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -86,6 +96,10 @@
                 <h5 class="card-title"><%= note.title %></h5>
                 <h6 class="card-subtitle mb-2 text-muted"><%=note.time%></h6>
                 <p class="card-text"><%= note.content %></p>
+                <div class="edit-delete-icons">
+                  <a href="#" class="edit-icon"><i class="fas fa-edit"></i></a>
+                  <a href="#" class="delete-icon"><i class="fas fa-trash"></i></a>
+                </div>
               </div>
             </div>
           </div>
