@@ -10,21 +10,6 @@
       rel="stylesheet"
       href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css"
     />
-    <script>
-      const signOut = async () => {
-        const res = await fetch("/signout", {
-          method: "GET",
-        });
-        const response = await res.json();
-        const code = response.code;
-        if (code === "success") {
-          document.getElementById("err").style.display = "block";
-          setTimeout(() => {
-            window.location.href = "/";
-          }, 1500);
-        }
-      };
-    </script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap");
       .navbar1 {
@@ -68,7 +53,8 @@
       <div class="jumbotron">
         <h1 class="display-4">Welcome, <%= userData.name %>!</h1>
       </div>
-      <button class="btn btn-danger mt-3" onclick="signOut()">Logout</button>
+      <button class="btn btn-danger mt-3" onclick="signOut()">Logout
+        &nbsp;<i class="fa-duotone fa-right-from-bracket"></i></button>
       <div
         id="err"
         class="alert alert-danger my-3"
@@ -84,7 +70,7 @@
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
-          + Add New Note
+        <i class="fa-duotone fa-file-plus"></i>&nbsp; Add New Note
         </button>
       </div>
       <div class="container-sm">
@@ -98,6 +84,7 @@
             <div class="card col">
               <div class="card-body">
                 <h5 class="card-title"><%= note.title %></h5>
+                <h6 class="card-subtitle mb-2 text-muted"><%=note.time%></h6>
                 <p class="card-text"><%= note.content %></p>
               </div>
             </div>
@@ -168,5 +155,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="addNote.js"></script>
+    <script src="signout.js"></script>
   </body>
 </html>
