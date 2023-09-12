@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome, <%=userData.name%></title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script>
+      const signOut = async () => {
+        const res = await fetch("/signout", {
+          method: "GET",
+        });
+        const response = await res.json();
+        const code = response.code;
+        if (code === "success") {
+          document.getElementById("err").style.display = "block";
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1700);
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="jumbotron">
+        <h1 class="display-4">Welcome, <%= userData.name %>!</h1>
+      </div>
+      <button class="btn btn-danger mt-3" onclick="signOut()">Logout</button>
+      <div
+        id="err"
+        class="alert alert-danger my-3"
+        role="alert"
+        style="display: none"
+      >
+        User Logged out .. Redirecting to Login Page !!
+      </div>
+      <hr>
+      <div class="cotainer-sm text-end">
+        <button class="btn btn-primary">+ Add New Note</button>
+      </div>
+      <div class="container-sm">
+        <div class="row row-cols-3">
+          <div class="col mt-4 me-3">
+            <div class="card col">
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <script src="scrpt.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
