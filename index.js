@@ -82,7 +82,9 @@ app.get("/signout", (req, res) => {
 app.get("/homepage", (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
-    res.render("homepage", { userData });
+    // const userNotes = Note.find({});
+    userNotes=[{title:"Hey",content:"Hello Guys!!"}]
+    res.render('homepage',{userData,userNotes});
     // res.send(`Welcome, ${userData.name}!`);
   } else {
     res.redirect("/");
