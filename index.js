@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(express.static("/static"));
 
 app.get("/", (req, res) => {
   if (req.session.user) {

@@ -17,7 +17,9 @@ const userSchema = new mongoose.Schema({
     },
     registered:{
         type:String,
-        default:new Date().toLocaleString(),
+        default:()=>{
+            new Date().toLocaleString()
+        },
     }
 });
 
