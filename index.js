@@ -47,8 +47,20 @@ app.post("/addnote", async (req, res) => {
   }
 });
 
-app.get("/testform", (req, res) => {
-  res.sendFile(static + "/test.html");
+app.delete("/delete/notes/:id", async (req, res) => {
+  const noteId = req.params.id;
+  try {
+    const deletedNote = await Note.findByIdAndDelete(noteId);
+
+    if (!deletedNote) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    res.json({ message: "Note deleted successfully" });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ error: "Error deleting note" });
+  }
 });
 
 app.post("/login", async (req, res) => {
@@ -83,8 +95,8 @@ app.get("/signout", (req, res) => {
 app.get("/homepage", async (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
-    const userNotes = await Note.find({email:userData.email});
-    res.render('homepage',{userData,userNotes});
+    const userNotes = await Note.find({ email: userData.email });
+    res.render("homepage", { userData, userNotes });
     // userNotes=[{title:"Hey",content:"Hello Guys!!"}]
     // res.send(`Welcome, ${userData.name}!`);
   } else {
