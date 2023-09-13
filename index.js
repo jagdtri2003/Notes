@@ -122,7 +122,7 @@ app.get("/*", async (req, res) => {
 });
 
 app.listen(5000, () => {
-  mongoose.connect("mongodb://127.0.0.1:27017/myUsers").then(() => {
+  mongoose.connect("mongodb+srv://jagdtri2003:zsL5bsh1uWIqu6Hx@cluster0.tcqpxnn.mongodb.net/iNote?retryWrites=true&w=majority").then(() => {
     console.log("Connected to MongoDB");
     console.log("Server is running at port 5000");
   });
