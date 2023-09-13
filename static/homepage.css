@@ -15,8 +15,8 @@ hr {
   height: 5px;
 }
 .card-body {
-  box-shadow: 0 0 5px rgba(210, 104, 18, 0.945),
-    0 0 10px rgba(232, 232, 43, 0.963), 0 0 15px rgba(143, 155, 6, 0.489),
+  box-shadow: 0 0 5px rgba(73, 181, 244, 0.945),
+    0 0 5px rgba(79, 170, 245, 0.963), 0 0 15px rgba(14, 50, 234, 0.489),
     0 2px 0 black;
 }
 .edit-delete-icons {
