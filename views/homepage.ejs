@@ -135,9 +135,27 @@
         </div>
       </div>
     </div>
+    <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
+    <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="liveToast">
+      <div class="d-flex" >
+        <div class="toast-body" data-bs-delay="500">
+          Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="addNote.js"></script>
-    <script src="signout.js"></script>
-    <script src="deleteNote.js"></script>
+    <script src="homepage.js"></script>
+    <script>
+      const toastTrigger = document.getElementById("liveToastBtn");
+      const toastLiveExample = document.getElementById("liveToast");
+
+      if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+        toastTrigger.addEventListener("click", () => {
+          toastBootstrap.show();
+        });
+      }
+    </script>
   </body>
 </html>

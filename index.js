@@ -5,6 +5,7 @@ const session = require("express-session");
 const app = express();
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
+const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
 const User = require("./models/Users");
 const Note = require("./models/Notes");
@@ -16,18 +17,15 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("/static"));
 
-mongoose.connect("mongodb+srv://jagdtri2003:zsL5bsh1uWIqu6Hx@cluster0.tcqpxnn.mongodb.net/iNote?retryWrites=true&w=majority").then(() => {
+mongoose.connect("mongodb://127.0.0.1:27017/myUsers").then(() => {
   console.log("Connected to MongoDB");
 });
 
-app.get("/", (req, res) => {
-  if (req.session.user) {
-    const userData = req.session.user;
-    res.render("homepage", { userData });
-  } else res.sendFile(auth + "/login.html");
-});
 app.use(
   session({
+    store: MongoStore.create({
+      mongoUrl: 'mongodb://127.0.0.1:27017/session-store',
+    }),
     secret: "thisismysecretKeY$$",
     resave: false,
     saveUninitialized: true,
@@ -36,6 +34,14 @@ app.use(
     },
   })
 );
+
+
+app.get("/", (req, res) => {
+  if (req.session.user) {
+    const userData = req.session.user;
+    res.render("homepage", { userData });
+  } else res.sendFile(auth + "/login.html");
+});
 
 app.post("/addnote", async (req, res) => {
   if (req.session.user) {
