@@ -36,13 +36,6 @@ app.use(
 );
 
 
-app.get("/", (req, res) => {
-  if (req.session.user) {
-    const userData = req.session.user;
-    res.render("homepage", { userData });
-  } else res.sendFile(auth + "/login.html");
-});
-
 app.post("/addnote", async (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
@@ -56,6 +49,26 @@ app.post("/addnote", async (req, res) => {
     res.json({ code: "Fail" });
   }
 });
+
+app.put('/editnote/:id',async (req,res)=>{
+  const noteId = req.params.id;
+
+  const {title,content} = req.body;
+
+  try {
+    // Use a different variable name for the result
+    const updatedNote = await Note.findByIdAndUpdate(noteId, { title, content });
+
+    if (!updatedNote) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    res.json({ code: "Success" });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ error: "Error updating note" });
+  }
+})
 
 app.delete("/delete/notes/:id", async (req, res) => {
   const noteId = req.params.id;
@@ -102,13 +115,21 @@ app.get("/signout", (req, res) => {
   }
 });
 
+app.get("/", async (req, res) => {
+  if (req.session.user) {
+    const userData = req.session.user;
+    const userNotes = await Note.find({ email: userData.email });
+    res.render("homepage", { userData ,userNotes});
+  } else {
+    res.sendFile(static + "/login.html");
+  }
+});
+
 app.get("/homepage", async (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
     const userNotes = await Note.find({ email: userData.email });
     res.render("homepage", { userData, userNotes });
-    // userNotes=[{title:"Hey",content:"Hello Guys!!"}]
-    // res.send(`Welcome, ${userData.name}!`);
   } else {
     res.redirect("/");
   }
