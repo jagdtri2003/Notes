@@ -19,8 +19,7 @@ const onAdd = async () => {
   const msg = await res.json();
 
   if (msg.code === "Success") {
-    //Remove the model and show added toast !!
-    closeButton.click();
+    localStorage.setItem('noteAdded','true');
     // alert("Note added successfully !");
     location.reload();
   } else {
@@ -68,7 +67,6 @@ const signOut = async () => {
 function openEditModal(noteId, noteTitle, noteContent) {
   document.getElementById("editNoteTitle").value = noteTitle;
   document.getElementById("editNoteContent").value = noteContent;
-
   document.getElementById('editNoteModal').setAttribute('noteId',noteId);
 
   // Show the edit modal
@@ -93,12 +91,29 @@ const onEdit = async () => {
   })
 
   const code = await res.json();
-
-  // After successfully updating the note, close the edit modal
-  const editNoteModal = new bootstrap.Modal(
-    document.getElementById("editNoteModal")
-  );
-  editNoteModal.hide();
+  localStorage.setItem("noteUpdated", "true");
 
   window.location.reload();
+
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const noteUpdated = localStorage.getItem("noteUpdated");
+  const noteAdded = localStorage.getItem("noteAdded");
+  const toastLiveExample = document.getElementById("liveToast-1");
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample,{
+    autohide: true,
+    delay: 2500
+  });
+  if (noteUpdated === "true") {
+    document.getElementById('toast-content').innerText="Note Updated Successfully !";
+    localStorage.removeItem("noteUpdated");
+    toastBootstrap.show();
+
+  }else if(noteAdded==='true'){
+    document.getElementById('toast-content').innerText='Note Added Successfully!';
+    localStorage.removeItem('noteAdded');
+    toastBootstrap.show();
+  }
+});
