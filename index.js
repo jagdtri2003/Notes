@@ -16,6 +16,10 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("/static"));
 
+mongoose.connect("mongodb+srv://jagdtri2003:zsL5bsh1uWIqu6Hx@cluster0.tcqpxnn.mongodb.net/iNote?retryWrites=true&w=majority").then(() => {
+  console.log("Connected to MongoDB");
+});
+
 app.get("/", (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
@@ -122,8 +126,5 @@ app.get("/*", async (req, res) => {
 });
 
 app.listen(5000, () => {
-  mongoose.connect("mongodb+srv://jagdtri2003:zsL5bsh1uWIqu6Hx@cluster0.tcqpxnn.mongodb.net/iNote?retryWrites=true&w=majority").then(() => {
-    console.log("Connected to MongoDB");
-    console.log("Server is running at port 5000");
-  });
+  console.log("Server is running at port 5000");
 });
