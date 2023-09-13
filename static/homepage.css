@@ -29,3 +29,18 @@ hr {
 .card:hover .edit-delete-icons {
   display: block;
 }
+.toast{
+  background-color: #cdf6cd;
+  color: #0c1657;
+  font-weight: 500;
+  box-shadow: 0 0 1px #0e7406,
+              0 0 1px #0e7406,
+              0 0 3px #0e7406,
+              0 2px 0 #0e7406;
+
+}
+.btn-close{
+  background-color: #cdf6cd;
+  color: #0b4707;
+  
+}
