@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
         .then((response) => response.json())
         .then((data) => {
+          localStorage.setItem('noteDeleted',true);
           location.reload();
         })
         .catch((error) => {
@@ -101,10 +102,11 @@ const onEdit = async () => {
 document.addEventListener("DOMContentLoaded", () => {
   const noteUpdated = localStorage.getItem("noteUpdated");
   const noteAdded = localStorage.getItem("noteAdded");
+  const noteDeleted = localStorage.getItem('noteDeleted');
   const toastLiveExample = document.getElementById("liveToast-1");
   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample,{
     autohide: true,
-    delay: 2500
+    delay: 25000
   });
   if (noteUpdated === "true") {
     document.getElementById('toast-content').innerText="Note Updated Successfully !";
@@ -115,5 +117,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('toast-content').innerText='Note Added Successfully!';
     localStorage.removeItem('noteAdded');
     toastBootstrap.show();
+  }else if(noteDeleted==='true'){
+    document.getElementById('toast-content').innerText='Note Deleted Successfully!';
+    toastLiveExample.style.backgroundColor='#ffaaaa';
+    toastLiveExample.style.boxShadow=" 0 0 1px #740606,0 0 1px #740606,0 0 3px #740606,0 2px 0 #740606";
+    toastBootstrap.show();
+    localStorage.removeItem('noteDeleted');
   }
 });
