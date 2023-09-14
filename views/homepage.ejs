@@ -63,17 +63,19 @@
             <div class="card col">
               <div class="card-body">
                 <h5 class="card-title"><%= note.title %></h5>
-                <h6 class="card-subtitle mb-2 text-muted"><%=note.time%></h6>
+                <h6 class="card-subtitle text-muted"><%=note.time%></h6>
+                <hr style="height: 2px; margin:0.3rem 0">
                 <p class="card-text"><%= note.content %></p>
                 <div class="edit-delete-icons">
                   <a
                     class="edit-icon"
                     onclick="openEditModal('<%= note._id %>', '<%= note.title %>', '<%= note.content %>')"
                   >
-                    <i class="fas fa-edit"></i>
+                    <i class="fas fa-edit" style="color:grey"></i>
                   </a>
                   <a class="delete-icon" data-note-id="<%= note._id %>"
-                    ><i class="fas fa-trash"></i
+                    >
+                    <i class="fas fa-trash" style="color:red"></i
                   ></a>
                 </div>
               </div>
