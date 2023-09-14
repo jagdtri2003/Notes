@@ -9,6 +9,7 @@ const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
 const User = require("./models/Users");
 const Note = require("./models/Notes");
+require('dotenv').config();
 
 app.use(express.static(static));
 app.use(express.json());
@@ -17,16 +18,16 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("/static"));
 
-mongoose.connect("mongodb://127.0.0.1:27017/myUsers").then(() => {
+mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("Connected to MongoDB");
 });
 
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: 'mongodb://127.0.0.1:27017/session-store',
+      mongoUrl:process.env.MONGODB_SESSION_URI,
     }),
-    secret: "thisismysecretKeY$$",
+    secret:process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {
