@@ -11,9 +11,9 @@ const noteSchema = new mongoose.Schema({
     },
     time:{
         type:String,
-        default: ()=>{
-            return new Date().toLocaleString();
-        }
+        // default: ()=>{
+        //     return new Date().toLocaleString();
+        // }
     },
     email:{
         type:String,

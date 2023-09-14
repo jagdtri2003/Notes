@@ -41,9 +41,9 @@ app.post("/addnote", async (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
     const { title, content } = req.body;
-    // const {title,content} = req.query;
+    const time = new Date().toLocaleString();
     const email = userData.email;
-    const newNote = Note({ title, content, email });
+    const newNote = Note({ title, content, email,time });
     await newNote.save();
     res.json({ code: "Success" });
   } else {
