@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const toastLiveExample = document.getElementById("liveToast-1");
   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample,{
     autohide: true,
-    delay: 25000
+    delay: 2000
   });
   if (noteUpdated === "true") {
     document.getElementById('toast-content').innerText="Note Updated Successfully !";
