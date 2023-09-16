@@ -144,8 +144,9 @@ const openShareModal = (title,content) =>{
     if(code.error){
       document.getElementById('share-err').style.display='block';
     }else{
-      shareModal.close();
+      document.getElementById('share-id').value='';
+      document.getElementById('share-err').style.display='none';
+      shareModal.hide();
     }
   })
-
 };
