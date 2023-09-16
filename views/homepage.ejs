@@ -95,7 +95,9 @@
                   ></a>
                 </div>
                 <div class="text-end" style="font-size: 0.8rem;">
-                  Shared By : <%= note.sharedBy %>
+                  <% if(note.sharedBy!=''){ %>
+                    Shared By : <%= note.sharedBy %>
+                  <% } %>
                 </div>
               </div>
             </div>
