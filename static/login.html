@@ -14,14 +14,24 @@
       const onLogin = () =>{
         const email = f1.email.value;
         const password = f1.password.value;
-        login(email,password);
+        if(email.trim()!='' && password.trim()!=''){
+          login(email,password);
+        }else{
+          document.getElementById('error').innerText="All Fields are required !!"
+          document.getElementById('error').style.display='block';
+        }
       }
 
       const onRegister = () =>{
         const name= f2.name.value;
         const email = f2.email.value;
         const password = f2.password.value;
-        register(name,email,password);
+        if(email.trim()!='' && password.trim()!='' && name.trim()!=''){
+          register(name,email,password);
+        }else{
+          document.getElementById('error').innerText="All Fields are required !!"
+          document.getElementById('error').style.display='block';
+        }
       }
     </script>
     <style>
@@ -174,7 +184,7 @@
               <div id="msg" class="alert alert-success my-3" role="alert" style="display: none;">
                   User Registered Successfully !!
               </div>
-              </form>
+            </form>
             </div>
           </div>
         </div>
