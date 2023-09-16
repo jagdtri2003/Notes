@@ -68,6 +68,10 @@
                 <p class="card-text"><%= note.content %></p>
                 <div class="edit-delete-icons">
                   <a
+                  onclick="openShareModal('<%= note.title %>', '<%= note.content %>')">
+                    <i class="fa-duotone fa-share-from-square" title="Share Note" style="color: blue;"></i>
+                  </a> 
+                  <a
                     class="edit-icon"
                     onclick="openEditModal('<%= note._id %>', '<%= note.title %>', '<%= note.content %>')"
                   >
@@ -229,6 +233,29 @@
         </div>
       </div>
     </div>
+    <!--Share Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
+  Launch demo modal
+</button>
+
+<!--Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Share Note</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Share to</label>
+        <input type="email" class="form-control" placeholder="Enter the email" id="share-id" required>
+      </div>
+      <div class="modal-footer"> 
+        <button type="button" class="btn btn-primary" id="share-btn">Share</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="homepage.js"></script>
