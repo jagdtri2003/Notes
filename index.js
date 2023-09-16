@@ -10,6 +10,8 @@ const mongoose = require("mongoose");
 const User = require("./models/Users");
 const Note = require("./models/Notes");
 require('dotenv').config();
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr(process.env.CRYPT_SECRET_KEY);
 
 app.use(express.static(static));
 app.use(express.json());
@@ -41,9 +43,10 @@ app.post("/addnote", async (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
     const { title, content } = req.body;
+    const encryptedContent = cryptr.encrypt(content);
     const time = new Date().toLocaleString();
     const email = userData.email;
-    const newNote = Note({ title, content, email,time });
+    const newNote = Note({ title, content:encryptedContent, email,time });
     await newNote.save();
     res.json({ code: "Success" });
   } else {
@@ -55,10 +58,11 @@ app.put('/editnote/:id',async (req,res)=>{
   const noteId = req.params.id;
 
   const {title,content} = req.body;
+  const encryptedContent = cryptr.encrypt(content);
 
   try {
     // Use a different variable name for the result
-    const updatedNote = await Note.findByIdAndUpdate(noteId, { title, content });
+    const updatedNote = await Note.findByIdAndUpdate(noteId, { title, content:encryptedContent });
 
     if (!updatedNote) {
       return res.status(404).json({ error: "Note not found" });
@@ -119,7 +123,12 @@ app.get("/signout", (req, res) => {
 app.get("/", async (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
-    const userNotes = await Note.find({ email: userData.email });
+    let userNotes = await Note.find({ email: userData.email }); 
+    userNotes.forEach((note)=>{
+      note.content = cryptr.decrypt(note.content);
+      // // console.log(cryptr.decrypt(note.content));
+      // console.log(note)
+    })
     res.render("homepage", { userData ,userNotes});
   } else {
     res.sendFile(static + "/login.html");
@@ -130,6 +139,9 @@ app.get("/homepage", async (req, res) => {
   if (req.session.user) {
     const userData = req.session.user;
     const userNotes = await Note.find({ email: userData.email });
+    userNotes.forEach((note)=>{
+      note.content = cryptr.decrypt(note.content);
+    })
     res.render("homepage", { userData, userNotes });
   } else {
     res.redirect("/");
