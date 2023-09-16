@@ -28,7 +28,13 @@ hr {
 
 .card:hover .edit-delete-icons {
   display: block;
+
 }
+
+.card:hover .edit-delete-icons a {
+  text-decoration: none;
+}
+
 .toast{
   background-color: #cdf6cd;
   color: #0c1657;
