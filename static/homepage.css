@@ -50,6 +50,16 @@ hr {
   color: #0b4707;
   
 }
+
+
+#Logout:hover{
+  .fa-right-from-bracket{
+    transform: translateX(5px);
+    transition: transform 0.5s;
+  }
+}
+
+
 body{
   background: linear-gradient(135deg ,#abcfff, #c9e7f7);
   min-width: 100vw;

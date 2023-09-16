@@ -54,6 +54,22 @@ app.post("/addnote", async (req, res) => {
   }
 });
 
+// For Sharing Notes to other users !!
+
+app.post('/sharenote',async(req,res)=>{
+  const {sharedTo,title,content} = req.body;
+  const validUser = await User.findOne({email:sharedTo});
+  const time = new Date().toLocaleString();
+  const sharedBy = req.session.user.name;
+  if(validUser){
+    const sharedNote = Note({title,content:cryptr.encrypt(content),time:time+" (Shared)",email:sharedTo,sharedBy});
+    await sharedNote.save();
+    res.json({msg:`Note Shared to ${sharedTo}`});
+  }else{
+    res.json({error:"User Not Found !!"});
+  }
+})
+
 app.put('/editnote/:id',async (req,res)=>{
   const noteId = req.params.id;
 
