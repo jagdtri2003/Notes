@@ -58,3 +58,11 @@ hr {
     transition: transform 0.5s;
   }
 }
+
+
+body{
+  background: linear-gradient(135deg ,#abcfff, #c9e7f7);
+  min-width: 100vw;
+  min-height: 100vh;
+  
+}
