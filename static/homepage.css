@@ -44,3 +44,9 @@ hr {
   color: #0b4707;
   
 }
+body{
+  background: linear-gradient(135deg ,#abcfff, #c9e7f7);
+  min-width: 100vw;
+  min-height: 100vh;
+  
+}
