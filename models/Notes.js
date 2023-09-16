@@ -19,6 +19,10 @@ const noteSchema = new mongoose.Schema({
         type:String,
         required:true,
         lowercase:true
+    },
+    sharedBy:{
+        type:String,
+        default:''
     }
 });
 

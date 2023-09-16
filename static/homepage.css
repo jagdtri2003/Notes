@@ -50,3 +50,11 @@ hr {
   color: #0b4707;
   
 }
+
+
+#Logout:hover{
+  .fa-right-from-bracket{
+    transform: translateX(5px);
+    transition: transform 0.5s;
+  }
+}
