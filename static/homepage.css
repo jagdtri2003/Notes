@@ -61,8 +61,12 @@ hr {
 
 
 body{
+  overflow-x: hidden;
   background: linear-gradient(135deg ,#abcfff, #c9e7f7);
   min-width: 100vw;
   min-height: 100vh;
   
 }
+
+
+

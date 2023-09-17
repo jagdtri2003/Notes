@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css"
     />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="homepage.css" />
   </head>
   <body>
@@ -43,7 +44,7 @@
         User Logged out .. Redirecting you to Login Page !!
       </div>
       <hr />
-      <div class="cotainer-sm text-end">
+      <div class="cotainer-sm text-end me-3">
         <button
           class="btn btn-primary"
           data-bs-toggle="modal"
@@ -53,7 +54,7 @@
         </button>
       </div>
       <div class="container-sm">
-        <div class="row row-cols-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
           <% if (userNotes.length === 0 || userNotes===null) { %>
           <div class="col mt-4">
             <p>No Notes added yet. Please add one !</p>
