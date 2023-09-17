@@ -61,7 +61,7 @@
           </div>
           <% } else { %> <% userNotes.forEach(function(note) { %>
           <div class="col mt-4">
-            <div class="card col">
+            <div class="card col d-flex flex-column h-100">
               <div class="card-body">
                 <h5 class="card-title"><%= note.title %></h5>
                 <h6 class="card-subtitle text-muted"><%=note.time%></h6>
