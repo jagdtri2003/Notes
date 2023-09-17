@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const noteAdded = localStorage.getItem("noteAdded");
   const noteDeleted = localStorage.getItem('noteDeleted');
   const toastLiveExample = document.getElementById("liveToast-1");
+  const noteShared = localStorage.getItem('noteShared');
   const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample,{
     autohide: true,
     delay: 2000
@@ -123,6 +124,10 @@ document.addEventListener("DOMContentLoaded", () => {
     toastLiveExample.style.boxShadow=" 0 0 1px #740606,0 0 1px #740606,0 0 3px #740606,0 2px 0 #740606";
     toastBootstrap.show();
     localStorage.removeItem('noteDeleted');
+  }else if(noteShared){
+    document.getElementById('toast-content').innerText=`Note Shared with ${noteShared}`;
+    toastBootstrap.show();
+    localStorage.removeItem('noteShared');
   }
 });
 
@@ -133,6 +138,15 @@ const openShareModal = (title,content) =>{
 
   document.getElementById('share-btn').addEventListener('click',async()=>{
     const sharedTo = document.getElementById('share-id').value;
+    const email = document.getElementById('welcome').getAttribute('email');
+    const shareError = document.getElementById('share-err');
+    // Check if the sharedTo email is the same as the user's email
+    if (sharedTo.toLowerCase() === email) {
+      shareError.innerText = "You cannot share a note with yourself.";
+      shareError.style.display = 'block';
+      return;
+    }
+
     const res = await fetch('/sharenote',{
       method:'POST',
       headers:{
@@ -146,7 +160,8 @@ const openShareModal = (title,content) =>{
     }else{
       document.getElementById('share-id').value='';
       document.getElementById('share-err').style.display='none';
-      shareModal.hide();
+      localStorage.setItem('noteShared',sharedTo);
+      location.reload();
     }
   })
 };
