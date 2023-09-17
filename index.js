@@ -44,7 +44,7 @@ app.post("/addnote", async (req, res) => {
     const userData = req.session.user;
     const { title, content } = req.body;
     const encryptedContent = cryptr.encrypt(content);
-    const time = new Date().toLocaleString();
+    const time = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
     const email = userData.email;
     const newNote = Note({ title, content:encryptedContent, email,time });
     await newNote.save();
@@ -59,7 +59,7 @@ app.post("/addnote", async (req, res) => {
 app.post('/sharenote',async(req,res)=>{
   const {sharedTo,title,content} = req.body;
   const validUser = await User.findOne({email:sharedTo});
-  const time = new Date().toLocaleString();
+  const time = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
   const sharedBy = req.session.user.name;
   if(validUser){
     const sharedNote = Note({title,content:cryptr.encrypt(content),time:time+" (Shared)",email:sharedTo,sharedBy});
