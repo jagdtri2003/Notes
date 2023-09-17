@@ -137,6 +137,7 @@ const openShareModal = (title,content) =>{
     shareModal.show();
 
   document.getElementById('share-btn').addEventListener('click',async()=>{
+    document.getElementById('share-btn').disabled=true;
     const sharedTo = document.getElementById('share-id').value;
     const email = document.getElementById('welcome').getAttribute('email');
     const shareError = document.getElementById('share-err');
@@ -144,6 +145,7 @@ const openShareModal = (title,content) =>{
     if (sharedTo.toLowerCase() === email) {
       shareError.innerText = "You cannot share a note with yourself.";
       shareError.style.display = 'block';
+      document.getElementById('share-btn').disabled=false;
       return;
     }
 
@@ -157,6 +159,7 @@ const openShareModal = (title,content) =>{
     const code = await res.json();
     if(code.error){
       document.getElementById('share-err').style.display='block';
+      document.getElementById('share-btn').disabled=false;
     }else{
       document.getElementById('share-id').value='';
       document.getElementById('share-err').style.display='none';
