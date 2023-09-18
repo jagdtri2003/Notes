@@ -35,17 +35,23 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const noteId = deleteIcon.getAttribute("data-note-id");
 
-      fetch(`/delete/notes/${noteId}`, {
-        method: "DELETE",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          localStorage.setItem('noteDeleted',true);
-          location.reload();
+      const toastLiveExample = document.getElementById('delToast')
+      const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+      toastBootstrap.show()
+
+      document.getElementById('confirm-del').addEventListener('click',()=>{
+        fetch(`/delete/notes/${noteId}`, {
+          method: "DELETE",
         })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+          .then((response) => response.json())
+          .then((data) => {
+            localStorage.setItem('noteDeleted',true);
+            location.reload();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      })
     });
   });
 });
