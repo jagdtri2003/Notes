@@ -45,7 +45,7 @@ app.use(
     port:587,
     auth: {
       user:'jagdtri2003@gmail.com',  // Your Gmail email address
-      pass:process.env.REACT_APP_PASS   // Your Gmail password or app password
+      pass:'baYqJkcCVL8M9W6j'   // Your Gmail password or app password
     }
   });
 
