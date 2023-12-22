@@ -19,6 +19,7 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("/static"));
+const nodemailer = require('nodemailer');
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("Connected to MongoDB");
@@ -37,6 +38,16 @@ app.use(
     },
   })
 );
+
+  // Create a transporter object using the default SMTP transport
+  const transporter = nodemailer.createTransport({
+    host:'smtp-relay.brevo.com',
+    port:587,
+    auth: {
+      user:'jagdtri2003@gmail.com',  // Your Gmail email address
+      pass:process.env.REACT_APP_PASS   // Your Gmail password or app password
+    }
+  });
 
 
 app.post("/addnote", async (req, res) => {
@@ -57,17 +68,76 @@ app.post("/addnote", async (req, res) => {
 // For Sharing Notes to other users !!
 
 app.post('/sharenote',async(req,res)=>{
+
+  console.log(req.body);
   const {sharedTo,title,content} = req.body;
-  const validUser = await User.findOne({email:sharedTo});
-  const time = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
-  const sharedBy = req.session.user.name;
-  if(validUser){
-    const sharedNote = Note({title,content:cryptr.encrypt(content),time:time+" (Shared)",email:sharedTo,sharedBy});
-    await sharedNote.save();
-    res.json({msg:`Note Shared to ${sharedTo}`});
-  }else{
-    res.json({error:"User Not Found !!"});
-  }
+    // Email data
+    const mailOptions = {
+      from: "iNote <noreply@iNote-web.in>",
+      to: sharedTo,
+      subject: `Note Shared !!`,
+      html:`
+      <html>
+      <head>
+        <title>Note Shared</title>
+        <style>
+        @import url("https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap");
+        /* Basic styling for the navbar */
+        .navbar {
+          background-color: rgb(9,32,63); /* Blue background color */
+          color: white; /* Text color */
+          padding: 10px 20px; /* Padding for content */
+          font-family: Arial, sans-serif; /* Font */
+          text-align: left; /* Left text */
+          border-radius: 4px;
+        }
+    
+        /* Styling for the navbar title */
+        .navbar-title {
+          font-size: 24px; /* Font size */
+          font-weight: bold; /* Bold font */
+          font-family: 'Berkshire Swash', cursive;
+        }
+      </style>
+      </head>
+      <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
+      
+        <!-- Navbar -->
+        <div class="navbar">
+          <span class="navbar-title">iNote</span>
+        </div>
+
+        <div style="background-color: #fff; max-width: 400px; margin: 0 auto; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+          <h2 style="color: #333;">${req.session.user.name} Shared a Note with You</h2>
+          <p style="color: #555;">Click below to view the note:</p>
+          <a href="https://inote-web.vercel.app" style="display: inline-block; padding: 10px 20px; margin-top: 20px; text-decoration: none; color: #fff; background-color: rgb(9,32,63); border-radius: 4px;">View Note</a>
+        </div>
+      
+      </body>
+      </html>
+      `
+  };
+
+    const validUser = await User.findOne({email:sharedTo});
+        const time = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+        const sharedBy = req.session.user.name;
+        if(validUser){
+          const sharedNote = Note({title,content:cryptr.encrypt(content),time:time+" (Shared)",email:sharedTo,sharedBy});
+          await sharedNote.save();
+          
+            // Send email
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                  console.log(error);
+              } else {
+                  console.log(info);
+              }
+          });
+          res.json({msg:`Note Shared to ${sharedTo}`});
+        }else{
+          res.json({error:"User Not Found !!"});
+        }
+
 })
 
 app.put('/editnote/:id',async (req,res)=>{
