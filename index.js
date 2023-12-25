@@ -10,8 +10,11 @@ const mongoose = require("mongoose");
 const User = require("./models/Users");
 const Note = require("./models/Notes");
 require('dotenv').config();
+const uuid = require('uuid');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(process.env.CRYPT_SECRET_KEY);
+
+const users = {};
 
 app.use(express.static(static));
 app.use(express.json());
@@ -238,10 +241,15 @@ app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   const hashedPass = await bcrypt.hash(password, 15);
   let isEmailAlreadyExists = await User.findOne({ email });
+  
   if (isEmailAlreadyExists) {
     res.json({ code: "Fail" });
   } else {
     const userData = new User({ name, email, password: hashedPass });
+    const verificationToken = uuid.v4();
+    // Store the token associated with the user's email
+    users[email] = verificationToken;
+    const verificationLink = `http://inote-web.vercel.app/verify?email=${encodeURIComponent(email)}&token=${verificationToken}`;
     const mailOptions = {
       from: 'iNote <noreply@iNote-web.in>', // Sender's email address
       to: email, // Recipient's email address
@@ -255,7 +263,7 @@ app.post("/register", async (req, res) => {
       
       To start using iNote and safeguard your notes, please take a moment to verify your email address by clicking the link below:
       
-      [Verification Link]
+      ${verificationLink}
       
       By verifying your email, you'll gain full access to iNote's suite of features, including encrypted note storage, seamless synchronization, and convenient accessibility from any device.
       
@@ -273,6 +281,21 @@ app.post("/register", async (req, res) => {
         console.log('Email sent:', info.response);
       }});
     res.json({ code: "success" });
+  }
+});
+
+app.get('/verify', (req, res) => {
+  const userEmail = req.query.email;
+  const token = req.query.token;
+
+  // Check if the email and token exist in the users store
+  if (users[userEmail] && users[userEmail] === token) {
+    // Email and token match - Email verified
+    res.send('Email verified successfully!');
+    // You would typically update the user's status in your database here
+  } else {
+    // Invalid or expired verification link
+    res.send('Invalid verification link!');
   }
 });
 
