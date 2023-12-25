@@ -242,7 +242,36 @@ app.post("/register", async (req, res) => {
     res.json({ code: "Fail" });
   } else {
     const userData = new User({ name, email, password: hashedPass });
-    await userData.save();
+    const mailOptions = {
+      from: 'iNote <noreply@iNote-web.in>', // Sender's email address
+      to: email, // Recipient's email address
+      subject: 'Welcome to iNote - Simplify Note Taking',
+      text: `
+      Dear ${name},
+
+      Welcome to iNote, your secure platform for storing notes online! We're thrilled to have you join our community of note-takers and organizers.
+      
+      At iNote, your privacy and security are our utmost priorities. Our encrypted storage ensures that your notes remain protected and accessible only to you.
+      
+      To start using iNote and safeguard your notes, please take a moment to verify your email address by clicking the link below:
+      
+      [Verification Link]
+      
+      By verifying your email, you'll gain full access to iNote's suite of features, including encrypted note storage, seamless synchronization, and convenient accessibility from any device.
+      
+      Thank you for choosing iNote for your note-taking needs. We're excited to assist you in organizing your thoughts securely!
+      
+      Warm regards,
+      Jagdamba Tripathi
+      `
+    };
+    transporter.sendMail(mailOptions,async function(error, info) {
+      if (error) {
+        console.error('Error sending email:', error);
+      } else {
+        await userData.save();
+        console.log('Email sent:', info.response);
+      }});
     res.json({ code: "success" });
   }
 });
